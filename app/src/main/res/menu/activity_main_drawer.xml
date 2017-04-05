@@ -1,18 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
+    <group android:id="@+id/group_function"
+        android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_listen_now"
-            android:icon="@drawable/ic_add_white_24dp"
-            android:title="Item 1" />
-        <item
-            android:id="@+id/nav_search"
-            android:icon="@drawable/ic_add_white_24dp"
-            android:title="Item 2" />
-
+            android:id="@+id/nav_change_mode"
+            android:icon="@drawable/ic_check_box_black_24dp"
+            android:title="Inventory Mode" />
 
     </group>
 
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_camera"
+            android:icon="@drawable/ic_add_white_24dp"
+            android:title="Import" />
+        <item
+            android:id="@+id/nav_gallery"
+            android:icon="@drawable/ic_add_white_24dp"
+            android:title="Gallery" />
+        <item
+            android:id="@+id/nav_slideshow"
+            android:icon="@drawable/ic_add_white_24dp"
+            android:title="Slideshow" />
+        <item
+            android:id="@+id/nav_manage"
+            android:icon="@drawable/ic_add_white_24dp"
+            android:title="Tools" />
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_add_white_24dp"
+                android:title="Share" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_add_white_24dp"
+                android:title="Send" />
+        </menu>
+    </item>
 
 </menu>

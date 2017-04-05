@@ -6,12 +6,17 @@
 <!--</resources>-->
 
 <resources>
-<color name="primary">#9E9E9E</color>
-<color name="primary_dark">#616161</color>
+<color name="primary">#616161</color>
+<color name="primary_dark">#424242</color>
 <color name="primary_light">#F5F5F5</color>
-<color name="accent">#3F51B5</color>
+<color name="accent">#0277BD</color>
 <color name="primary_text">#212121</color>
 <color name="secondary_text">#757575</color>
 <color name="icons">#212121</color>
 <color name="divider">#BDBDBD</color>
+
+<color name="primary_seller">#E53935</color>
+<color name="primary_dark_seller">#C62828</color>
+<color name="primary_light_seller">#EF9A9A</color>
+
 </resources>

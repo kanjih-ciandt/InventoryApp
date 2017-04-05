@@ -10,8 +10,9 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.kanjih.inventoryap8p.MainActivity"
+    tools:context="com.kanjih.inventoryapp.MainActivity"
     tools:showIn="@layout/activity_main">
+
 
     <ListView
         android:id="@+id/list_view_pet"
@@ -25,6 +26,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true">
+
+        <ImageView
+            android:id="@+id/temp_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/empty_title_text"/>
 
 
 
