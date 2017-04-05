@@ -15,119 +15,114 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="FOTO"
-            android:textAlignment="center"/>
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="3"
-        android:orientation="vertical">
-
-
-        <!-- Overview category -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <!-- Label -->
-            <TextView
-                android:text="Code:"
-                style="@style/LabelStyle" />
-            <!-- Name field -->
-            <EditText
-                android:id="@+id/edit_code"
-                android:hint="Product Code"
-                android:inputType="textShortMessage"
-                style="@style/EditorFieldStyle" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <!-- Label -->
-            <TextView
-                android:text="Name:"
-                style="@style/LabelStyle" />
-            <!-- Name field -->
-            <EditText
-                android:id="@+id/edit_pet_name"
-                android:hint="Product Name"
-                android:inputType="textShortMessage"
-                style="@style/EditorFieldStyle" />
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <!-- Label -->
-            <TextView
-                android:text="Supplier:"
-                style="@style/LabelStyle" />
-            <!-- Name field -->
-            <EditText
-                android:id="@+id/edit_product_supplier"
-                android:hint="Supplier"
-                android:inputType="textShortMessage"
-                style="@style/EditorFieldStyle" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <!-- Label -->
-            <TextView
-                android:text="Price:"
-                style="@style/LabelStyle" />
-            <!-- Name field -->
-            <EditText
-                android:id="@+id/edit_product_price"
-                android:hint="Product Price"
-                android:inputType="textShortMessage"
-                style="@style/EditorFieldStyle" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <!-- Label -->
-            <TextView
-                android:text="Quantity:"
-                style="@style/LabelStyle" />
-            <!-- Name field -->
-            <EditText
-                android:id="@+id/edit_product_qtde"
-                android:hint="Quantity"
-                android:inputType="textShortMessage"
-                style="@style/EditorFieldStyle" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
         android:layout_weight="2"
         android:orientation="vertical">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tracking Sales :"/>
-        <ListView
-            android:id="@+id/list_view_pet"
+        <ImageView
+            android:id="@+id/image_product"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:background="@color/primary_dark"
             />
     </LinearLayout>
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:orientation="vertical">
+
+
+            <!-- Overview category -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="16dp">
+                <!-- Label -->
+                <TextView
+                    android:text="Code:"
+                    style="@style/LabelStyle" />
+                <!-- Name field -->
+                <EditText
+                    android:id="@+id/edit_code"
+                    android:hint="Product Code"
+                    android:inputType="textShortMessage"
+                    style="@style/EditorFieldStyle" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="16dp">
+                <!-- Label -->
+                <TextView
+                    android:text="Name:"
+                    style="@style/LabelStyle" />
+                <!-- Name field -->
+                <EditText
+                    android:id="@+id/edit_pet_name"
+                    android:hint="Product Name"
+                    android:inputType="textShortMessage"
+                    style="@style/EditorFieldStyle" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="16dp">
+                <!-- Label -->
+                <TextView
+                    android:text="Supplier:"
+                    style="@style/LabelStyle" />
+                <!-- Name field -->
+                <EditText
+                    android:id="@+id/edit_product_supplier"
+                    android:hint="Supplier"
+                    android:inputType="textShortMessage"
+                    style="@style/EditorFieldStyle" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="16dp"
+                >
+                <!-- Label -->
+                <TextView
+                    android:text="Price:"
+                    style="@style/LabelStyle" />
+                <!-- Name field -->
+                <EditText
+                    android:id="@+id/edit_product_price"
+                    android:hint="Product Price"
+                    android:inputType="textShortMessage"
+                    style="@style/EditorFieldStyle" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp">
+                <!-- Label -->
+                <TextView
+                    android:text="Quantity:"
+                    style="@style/LabelStyle" />
+                <!-- Name field -->
+                <EditText
+                    android:id="@+id/edit_product_qtde"
+                    android:hint="Quantity"
+                    android:inputType="textShortMessage"
+                    style="@style/EditorFieldStyle" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
