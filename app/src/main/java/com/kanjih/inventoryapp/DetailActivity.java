@@ -6,9 +6,14 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import java.io.File;
@@ -22,6 +27,14 @@ public class DetailActivity extends AppCompatActivity {
 
     private ImageView mImageView;
 
+    private EditText mCode;
+    private EditText mName;
+    private EditText mSupplier;
+    private EditText mPrice;
+    private EditText mQtde;
+    private int qtde=0;
+
+
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final String BITMAP_STORAGE_KEY = "viewbitmap";
     private Bitmap mImageBitmap;
@@ -34,6 +47,37 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
 
         mImageView = (ImageView) findViewById(R.id.image_product);
+        mCode = (EditText) findViewById(R.id.edit_prod_code);
+        mName = (EditText) findViewById(R.id.edit_prod_name);
+        mSupplier = (EditText) findViewById(R.id.edit_prod_supplier);
+        mPrice = (EditText) findViewById(R.id.edit_prod_price);
+        mQtde = (EditText) findViewById(R.id.edit_prod_qtde);
+
+        ImageButton btnAdd = (ImageButton) findViewById(R.id.btn_qtde_add);
+        ImageButton btnRemove = (ImageButton) findViewById(R.id.btn_qtde_remove);
+
+        btnRemove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(qtde <= 0) {
+
+                    Snackbar.make(view, R.string.msg_edit_qtde, Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                } else {
+                    qtde--;
+                    mQtde.setText(String.valueOf(qtde));
+            }
+            }
+        });
+
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                qtde++;
+                mQtde.setText(String.valueOf(qtde));
+            }
+        });
+
 
 
         Intent intent = getIntent();
@@ -42,6 +86,18 @@ public class DetailActivity extends AppCompatActivity {
             dispatchTakePictureIntent();
 
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu options from the res/menu/menu_editor.xml file.
+        getMenuInflater().inflate(R.menu.menu_detail, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
     }
 
     private void dispatchTakePictureIntent() {

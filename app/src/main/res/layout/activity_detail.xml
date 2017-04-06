@@ -47,7 +47,7 @@
                     style="@style/LabelStyle" />
                 <!-- Name field -->
                 <EditText
-                    android:id="@+id/edit_code"
+                    android:id="@+id/edit_prod_code"
                     android:hint="Product Code"
                     android:inputType="textShortMessage"
                     style="@style/EditorFieldStyle" />
@@ -64,7 +64,7 @@
                     style="@style/LabelStyle" />
                 <!-- Name field -->
                 <EditText
-                    android:id="@+id/edit_pet_name"
+                    android:id="@+id/edit_prod_name"
                     android:hint="Product Name"
                     android:inputType="textShortMessage"
                     style="@style/EditorFieldStyle" />
@@ -82,7 +82,7 @@
                     style="@style/LabelStyle" />
                 <!-- Name field -->
                 <EditText
-                    android:id="@+id/edit_product_supplier"
+                    android:id="@+id/edit_prod_supplier"
                     android:hint="Supplier"
                     android:inputType="textShortMessage"
                     style="@style/EditorFieldStyle" />
@@ -100,9 +100,9 @@
                     style="@style/LabelStyle" />
                 <!-- Name field -->
                 <EditText
-                    android:id="@+id/edit_product_price"
-                    android:hint="Product Price"
-                    android:inputType="textShortMessage"
+                    android:id="@+id/edit_prod_price"
+                    android:hint="00.00"
+                    android:inputType="numberDecimal"
                     style="@style/EditorFieldStyle" />
             </LinearLayout>
 
@@ -117,11 +117,31 @@
                     android:text="Quantity:"
                     style="@style/LabelStyle" />
                 <!-- Name field -->
-                <EditText
-                    android:id="@+id/edit_product_qtde"
-                    android:hint="Quantity"
-                    android:inputType="textShortMessage"
-                    style="@style/EditorFieldStyle" />
+                <LinearLayout
+                    android:orientation="horizontal"
+                    style="@style/EditorFieldStyle">
+                   <ImageButton
+                       android:id="@+id/btn_qtde_remove"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:src="@drawable/ic_remove_circle_outline_black_24dp"
+                       style="?android:attr/borderlessButtonStyle"/>
+                    <EditText
+                        android:id="@+id/edit_prod_qtde"
+                        android:hint="0"
+                        android:textAlignment="center"
+                        android:inputType="number"
+                        style="@style/EditorFieldStyle"
+                        />
+                    <ImageButton
+                        android:id="@+id/btn_qtde_add"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_add_circle_outline_black_24dp"
+                        style="?android:attr/borderlessButtonStyle"/>
+
+                </LinearLayout>
+
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
