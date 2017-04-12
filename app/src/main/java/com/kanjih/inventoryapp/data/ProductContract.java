@@ -37,6 +37,7 @@ public class ProductContract {
         public static final String COLUMN_PROD_NAME = "name";
         public static final String COLUMN_PROD_PRICE = "price";
         public static final String COLUMN_PROD_QTDE = "qtde";
+        public static final String COLUMN_PROD_IMG_URL = "imgurl";
 
         public static final  String[] projection = {
                 _ID,

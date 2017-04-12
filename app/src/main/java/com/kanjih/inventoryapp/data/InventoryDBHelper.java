@@ -34,6 +34,7 @@ public class InventoryDBHelper extends SQLiteOpenHelper {
             + ProductEntry.COLUMN_PROD_CODE + " TEXT NOT NULL, "
             + ProductEntry.COLUMN_PROD_NAME + " TEXT NOT NULL, "
             + ProductEntry.COLUMN_PROD_PRICE + " INTEGER , "
+            + ProductEntry.COLUMN_PROD_IMG_URL + " TEXT , "
             + ProductEntry.COLUMN_PROD_QTDE + " INTEGER NOT NULL); ";
 
 

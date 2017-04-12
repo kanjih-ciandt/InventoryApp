@@ -3,6 +3,7 @@
     <string name="app_name_mode_inventory">Inventory App (Inventory Mode)</string>
     <string name="app_name_mode_seller">Inventory App (Seller Mode)</string>
     <string name="action_settings">Settings</string>
+    <string name="action_manager_supplier">Manager Supplier</string>
 
     <!-- Title text for the empty view, which describes the empty dog house image [CHAR LIMIT=50] -->
     <string name="empty_view_title_text">Your Inventory is empty</string>
@@ -19,4 +20,27 @@
     <string name="action_delete">Delete</string>
 
     <string name="msg_edit_qtde">the smaller quantity possible is 0</string>
+    <string name="supplier_ui_name">Name:</string>
+    <string name="supplier_ui_name_desc">Supplier Name</string>
+    <string name="supplier_ui_mail">E-mail:</string>
+    <string name="supplier_ui_mail_desc">Supplier contact e-mail</string>
+    <string name="supplier_ui_phone">Phone:</string>
+    <string name="supplier_ui_phone_desc">Supplier contact phone</string>
+    <string name="supplier_ui_mobile">Mobile:</string>
+    <string name="supplier_ui_mobile_desc">Supplier contact mobile</string>
+
+
+    <string name="unsaved_changes_dialog_msg">Discard your changes and quit editing?</string>
+    <string name="discard">Discard</string>
+    <string name="keep_editing">Keep Editing</string>
+    <string name="delete_dialog_msg_supplier">Delete this Supplier?</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="editor_delete_supplier_failed">Error with deleting supplier</string>
+    <string name="editor_delete_supplier_successful">Supplier deleted</string>
+    <string name="editor_save_supplier_successful">Supplier saved</string>
+    <string name="editor_save_supplier_failed">Failed to save supplier</string>
+    <string name="editor_save_product_successful">Product Saved</string>
+    <string name="editor_save_product_failed">Failed to Save product</string>
+    <string name="action_delete_all">delete all</string>
 </resources>

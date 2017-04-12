@@ -1,45 +1,37 @@
 package com.kanjih.inventoryapp;
 
+import android.app.LoaderManager;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.net.Uri;
+import android.content.Loader;
+import android.database.Cursor;
+import android.content.CursorLoader;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.FileProvider;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.support.v7.app.ActionBarDrawerToggle;
+
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
+
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import com.kanjih.inventoryapp.data.OrderContract;
+import com.kanjih.inventoryapp.data.ProductContract;
+import com.kanjih.inventoryapp.data.ProductContract.ProductEntry;
+import com.kanjih.inventoryapp.data.ProductOrderContract;
 
-import static android.R.attr.data;
-import static com.kanjih.inventoryapp.R.id.fab;
+public class MainActivity extends AppCompatActivity  implements NavigationView.OnNavigationItemSelectedListener,  LoaderManager.LoaderCallbacks<Cursor>{
 
-public class MainActivity extends AppCompatActivity  implements NavigationView.OnNavigationItemSelectedListener{
+    private static final int PRODUCT_LOADER = 0;
 
     boolean isInventoryMode = true;
 
-
-
-
+    InventoryCursorAdapter mCursorAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +39,6 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,15 +49,19 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
             }
         });
 
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        ListView petListView = (ListView) findViewById(R.id.list_view_pet);
+        ListView productsListView = (ListView) findViewById(R.id.list_view_products);
 
         View emptyView = findViewById(R.id.empty_view);
-        petListView.setEmptyView(emptyView);
+        productsListView.setEmptyView(emptyView);
 
+        mCursorAdapter = new InventoryCursorAdapter(this, null);
+        productsListView.setAdapter(mCursorAdapter);
+
+        // Kick off the loader
+        getLoaderManager().initLoader(PRODUCT_LOADER, null, this);
 
     }
 
@@ -87,15 +80,19 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_insert_supplier) {
+            Intent intent = new Intent(MainActivity.this, SupplierActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.action_delete_all){
+            getContentResolver().delete(ProductContract.ProductEntry.CONTENT_URI, null, null);
+            getContentResolver().delete(ProductOrderContract.ProductOrderEntry.CONTENT_URI, null, null);
+            getContentResolver().delete(OrderContract.OrderEntry.CONTENT_URI, null, null);
         }
 
         return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
-
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
@@ -126,7 +123,6 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         LinearLayout navLayout = (LinearLayout) findViewById(R.id.nav_bar_header);
 
-
         if(isInventoryMode){
             item.setIcon(R.drawable.ic_check_box_outline_blank_black_24dp);
             isInventoryMode = false;
@@ -143,4 +139,19 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
 
     }
 
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        return new CursorLoader(this, ProductEntry.CONTENT_URI,ProductEntry.projection,null,null,null);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        mCursorAdapter.swapCursor(data);
+
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        mCursorAdapter.swapCursor(null);
+    }
 }

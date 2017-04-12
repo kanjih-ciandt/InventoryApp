@@ -81,7 +81,7 @@
                     android:text="Supplier:"
                     style="@style/LabelStyle" />
                 <!-- Name field -->
-                <EditText
+                <Spinner
                     android:id="@+id/edit_prod_supplier"
                     android:hint="Supplier"
                     android:inputType="textShortMessage"
