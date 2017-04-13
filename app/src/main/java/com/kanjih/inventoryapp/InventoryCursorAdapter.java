@@ -38,9 +38,11 @@ public class InventoryCursorAdapter extends CursorAdapter {
         TextView quantityTextView = (TextView) view.findViewById(R.id.list_quantity);
         TextView priceTextView = (TextView) view.findViewById(R.id.list_price);
 
+
         String productString = cursor.getString(cursor.getColumnIndexOrThrow(ProductContract.ProductEntry.COLUMN_PROD_NAME));
         String quantityString = cursor.getString(cursor.getColumnIndexOrThrow(ProductContract.ProductEntry.COLUMN_PROD_QTDE));
         String priceString = cursor.getString(cursor.getColumnIndexOrThrow(ProductContract.ProductEntry.COLUMN_PROD_PRICE));
+        int idString = cursor.getInt(cursor.getColumnIndexOrThrow(ProductContract.ProductEntry._ID));
 
         NumberFormat nf = NumberFormat.getInstance(Locale.US);
 

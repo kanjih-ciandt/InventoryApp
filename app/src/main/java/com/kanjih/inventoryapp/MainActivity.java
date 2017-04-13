@@ -1,10 +1,12 @@
 package com.kanjih.inventoryapp;
 
 import android.app.LoaderManager;
+import android.content.ContentUris;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.content.CursorLoader;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -17,6 +19,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -60,6 +63,22 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         mCursorAdapter = new InventoryCursorAdapter(this, null);
         productsListView.setAdapter(mCursorAdapter);
 
+
+        productsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+
+                Uri currentUriPetUri = ContentUris.withAppendedId(ProductEntry.CONTENT_URI,id);
+                intent.setData(currentUriPetUri);
+
+
+                intent.putExtra("take_picture", false);
+                startActivity(intent);
+
+            }
+        });
+
         // Kick off the loader
         getLoaderManager().initLoader(PRODUCT_LOADER, null, this);
 
@@ -99,18 +118,8 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
 
         if (id == R.id.nav_change_mode) {
             this.changeMode(item);
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
         }
-
+        
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
 
@@ -119,7 +128,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
 
 
     private void changeMode(MenuItem item){
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         LinearLayout navLayout = (LinearLayout) findViewById(R.id.nav_bar_header);
 

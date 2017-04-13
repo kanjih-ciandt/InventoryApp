@@ -35,7 +35,10 @@ public class InventoryDBHelper extends SQLiteOpenHelper {
             + ProductEntry.COLUMN_PROD_NAME + " TEXT NOT NULL, "
             + ProductEntry.COLUMN_PROD_PRICE + " REAL , "
             + ProductEntry.COLUMN_PROD_IMG_URL + " TEXT , "
-            + ProductEntry.COLUMN_PROD_QTDE + " INTEGER NOT NULL); ";
+            + ProductEntry.COLUMN_PROD_SUPPLIER_ID + " INTEGER , "
+            + ProductEntry.COLUMN_PROD_QTDE + " INTEGER NOT NULL,"
+            + " FOREIGN KEY(" + ProductEntry.COLUMN_PROD_SUPPLIER_ID + ") REFERENCES " + SupplierEntry.TABLE_NAME + " (id) "
+            + "); ";
 
 
     private String createProductOrder = "CREATE TABLE " + ProductOrderEntry.TABLE_NAME + " ("

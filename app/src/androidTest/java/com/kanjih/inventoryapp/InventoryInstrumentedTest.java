@@ -73,6 +73,7 @@ public class InventoryInstrumentedTest extends ProviderTestCase2<InventoryProvid
         valuesProduct.put(ProductEntry.COLUMN_PROD_NAME, "Product 2");
         valuesProduct.put(ProductEntry.COLUMN_PROD_PRICE, 145023);
         valuesProduct.put(ProductEntry.COLUMN_PROD_QTDE, 1000);
+        valuesProduct.put(ProductEntry.COLUMN_PROD_SUPPLIER_ID,Integer.valueOf(prodCode));
 
 
         //Product Order
@@ -116,8 +117,13 @@ public class InventoryInstrumentedTest extends ProviderTestCase2<InventoryProvid
     public void testCRUDProduct() throws Exception {
         ContentProvider provider = getProvider();
 
-        Uri uri =  this.testCreate(provider, ProductEntry.CONTENT_URI, valuesProduct);
+        Uri uri =   this.testCreate(provider, SupplierEntry.CONTENT_URI, valuesSupplier);
         String prodCode =  String.valueOf(ContentUris.parseId(uri));
+        valuesProduct.put(ProductEntry.COLUMN_PROD_SUPPLIER_ID, Integer.valueOf(prodCode));
+
+
+        uri =  this.testCreate(provider, ProductEntry.CONTENT_URI, valuesProduct);
+        prodCode =  String.valueOf(ContentUris.parseId(uri));
         this.testRead(provider,ProductEntry.CONTENT_URI, ProductEntry.projection);
         valuesProduct.put(ProductEntry.COLUMN_PROD_PRICE, 85023);
         Uri currentUriPetUri = ContentUris.withAppendedId(ProductEntry.CONTENT_URI,Integer.valueOf(prodCode));

@@ -1,9 +1,12 @@
 package com.kanjih.inventoryapp;
 
+import android.app.LoaderManager;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.Loader;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -49,9 +52,12 @@ import java.util.List;
 import java.util.Locale;
 
 import static android.R.attr.data;
+import static android.R.attr.name;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
     public static final String LOG_TAG = DetailActivity.class.getSimpleName();
+
+    private static final int PRODUCT_LOADER = 0;
 
     /**
      * Content URI
@@ -68,6 +74,7 @@ public class DetailActivity extends AppCompatActivity {
     private EditText mQtde;
     private int qtde=0;
     private HashMap<String, String>  mapSupplier = new HashMap<String, String>();
+    private HashMap<String, Integer>  mapId = new HashMap<String, Integer>();
     private boolean mProductChange;
 
 
@@ -142,6 +149,13 @@ public class DetailActivity extends AppCompatActivity {
             intent.putExtra("take_picture", false);
             dispatchTakePictureIntent();
 
+        }
+
+        mCurrentUri = intent.getData();
+
+        if (mCurrentUri != null) {
+            // Kick off the loader
+            getLoaderManager().initLoader(PRODUCT_LOADER, null, this);
         }
     }
 
@@ -255,13 +269,17 @@ public class DetailActivity extends AppCompatActivity {
 
         // READ
         Cursor cursor = getContentResolver().query(SupplierContract.SupplierEntry.CONTENT_URI, SupplierContract.SupplierEntry.projection,null,null,null);
+        int i = 0;
 
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
+
                 String name = cursor.getString(cursor.getColumnIndexOrThrow(SupplierContract.SupplierEntry.COLUMN_SUP_NAME));
                 String id = cursor.getString(cursor.getColumnIndexOrThrow(SupplierContract.SupplierEntry._ID));
                 mapSupplier.put(id + " - " + name,id);
+                mapId.put(id,i);
+                i++;
                 labels.add(id + " - " + name);
             } while (cursor.moveToNext());
         }
@@ -405,24 +423,14 @@ public class DetailActivity extends AppCompatActivity {
         valuesProduct.put(ProductContract.ProductEntry.COLUMN_PROD_QTDE, qtdeString);
         valuesProduct.put(ProductContract.ProductEntry.COLUMN_PROD_PRICE, number.doubleValue());
         valuesProduct.put(ProductContract.ProductEntry.COLUMN_PROD_IMG_URL, fileLocationString);
+        valuesProduct.put(ProductContract.ProductEntry.COLUMN_PROD_SUPPLIER_ID, mapSupplier.get(supplierString));
 
-        Uri newRowId = getContentResolver().insert(ProductEntry.CONTENT_URI, valuesProduct);
-
-        if(newRowId != null) {
-            String prodCode =  String.valueOf(ContentUris.parseId(newRowId));
-
-            ContentValues valuesProductOrder = new ContentValues();
-            valuesProductOrder.put(ProductOrderEntry.COLUMN_PO_SUPPLIER_ID, mapSupplier.get(supplierString));
-            valuesProductOrder.put(ProductOrderEntry.COLUMN_PO_PRICE,number.doubleValue());
-            valuesProductOrder.put(ProductOrderEntry.COLUMN_PO_QTDE, qtdeString);
-            valuesProductOrder.put(ProductOrderEntry.COLUMN_PO_PROD_ID, prodCode);
-
-            newRowId = getContentResolver().insert(ProductOrderEntry.CONTENT_URI, valuesProductOrder);
-
+        if(mCurrentUri == null) {
+            Uri newRowId = getContentResolver().insert(ProductEntry.CONTENT_URI, valuesProduct);
             isOk = (newRowId != null);
-
         } else {
-            isOk = false;
+            int numUpdate = getContentResolver().update(mCurrentUri, valuesProduct, null, null);
+            isOk = (numUpdate > 0);
         }
 
         // Show a toast message depending on whether or not the insertion was successful
@@ -456,4 +464,42 @@ public class DetailActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        return new CursorLoader(this, ProductEntry.CONTENT_URI,ProductEntry.projection,null,null,null);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        if (cursor.moveToFirst()) {
+            String productString = cursor.getString(cursor.getColumnIndexOrThrow(ProductContract.ProductEntry.COLUMN_PROD_NAME));
+            String quantityString = cursor.getString(cursor.getColumnIndexOrThrow(ProductContract.ProductEntry.COLUMN_PROD_QTDE));
+            String priceString = cursor.getString(cursor.getColumnIndexOrThrow(ProductContract.ProductEntry.COLUMN_PROD_PRICE));
+            String imageString = cursor.getString(cursor.getColumnIndexOrThrow(ProductEntry.COLUMN_PROD_IMG_URL));
+            String codeString = cursor.getString(cursor.getColumnIndexOrThrow(ProductEntry.COLUMN_PROD_CODE));
+            String supplierString = cursor.getString(cursor.getColumnIndexOrThrow(ProductEntry.COLUMN_PROD_SUPPLIER_ID));
+
+            qtde = Integer.valueOf(quantityString);
+
+            mImageBitmap = BitmapFactory.decodeFile(imageString);
+
+            mImageView.setImageBitmap(mImageBitmap);
+
+            //mImageView.
+            mCode.setText(codeString);
+            mName.setText(productString);
+            mPrice.setText(priceString);
+            mQtde.setText(quantityString);
+
+            int i  = mapId.get(supplierString);
+            mSupplierSpinner.setSelection(i);
+
+        }
+
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+
+    }
 }

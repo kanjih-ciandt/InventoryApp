@@ -38,13 +38,16 @@ public class ProductContract {
         public static final String COLUMN_PROD_PRICE = "price";
         public static final String COLUMN_PROD_QTDE = "qtde";
         public static final String COLUMN_PROD_IMG_URL = "imgurl";
+        public static final String COLUMN_PROD_SUPPLIER_ID = "supplier_id";
 
         public static final  String[] projection = {
                 _ID,
                 COLUMN_PROD_CODE,
                 COLUMN_PROD_NAME,
                 COLUMN_PROD_PRICE,
-                COLUMN_PROD_QTDE
+                COLUMN_PROD_QTDE,
+                COLUMN_PROD_IMG_URL,
+                COLUMN_PROD_SUPPLIER_ID
         };
 
 
