@@ -33,7 +33,7 @@ public class InventoryDBHelper extends SQLiteOpenHelper {
             + ProductEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + ProductEntry.COLUMN_PROD_CODE + " TEXT NOT NULL, "
             + ProductEntry.COLUMN_PROD_NAME + " TEXT NOT NULL, "
-            + ProductEntry.COLUMN_PROD_PRICE + " INTEGER , "
+            + ProductEntry.COLUMN_PROD_PRICE + " REAL , "
             + ProductEntry.COLUMN_PROD_IMG_URL + " TEXT , "
             + ProductEntry.COLUMN_PROD_QTDE + " INTEGER NOT NULL); ";
 
@@ -43,7 +43,7 @@ public class InventoryDBHelper extends SQLiteOpenHelper {
             + ProductOrderEntry.COLUMN_PO_PROD_ID + " INTEGER NOT NULL, "
             + ProductOrderEntry.COLUMN_PO_SUPPLIER_ID + " INTEGER NOT NULL, "
             + ProductOrderEntry.COLUMN_PO_QTDE + " INTEGER NOT NULL, "
-            + ProductOrderEntry.COLUMN_PO_PRICE + " INTEGER NOT NULL,"
+            + ProductOrderEntry.COLUMN_PO_PRICE + " REAL NOT NULL,"
             + ProductOrderEntry.COLUMN_PO_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP,"
             + " FOREIGN KEY(" + ProductOrderEntry.COLUMN_PO_PROD_ID + ") REFERENCES " + ProductEntry.TABLE_NAME + " (id), "
             + " FOREIGN KEY(" + ProductOrderEntry.COLUMN_PO_SUPPLIER_ID + ") REFERENCES " + SupplierEntry.TABLE_NAME + " (id)"

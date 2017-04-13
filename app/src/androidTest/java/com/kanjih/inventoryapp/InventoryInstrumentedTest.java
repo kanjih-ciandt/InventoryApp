@@ -141,7 +141,7 @@ public class InventoryInstrumentedTest extends ProviderTestCase2<InventoryProvid
 
         prodCode =  String.valueOf(ContentUris.parseId(uri));
         Uri currentUriPetUri = ContentUris.withAppendedId(ProductOrderEntry.CONTENT_URI,Integer.valueOf(prodCode));
-        valuesProductOrder.put(ProductOrderEntry.COLUMN_PO_PRICE,345023);
+        valuesProductOrder.put(ProductOrderEntry.COLUMN_PO_PRICE,345023.23d);
         this.testUpdate(provider,currentUriPetUri,valuesProductOrder);
         this.testDelete(provider, currentUriPetUri);
 

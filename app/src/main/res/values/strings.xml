@@ -43,4 +43,7 @@
     <string name="editor_save_product_successful">Product Saved</string>
     <string name="editor_save_product_failed">Failed to Save product</string>
     <string name="action_delete_all">delete all</string>
+
+    <string name="currency">$ </string>
+    <string name="quantity"> in stock</string>
 </resources>

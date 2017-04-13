@@ -384,10 +384,10 @@ public class DetailActivity extends AppCompatActivity {
         String priceString = mPrice.getText().toString().trim();
 
         NumberFormat format = NumberFormat.getInstance(Locale.US);
-        Integer priceInteger = null;
+        Number number = null;
         try {
-            Number number = format.parse(priceString);
-            priceInteger = Double.valueOf(number.doubleValue() * 100).intValue();
+            number = format.parse(priceString);
+
 
         } catch (ParseException e) {
             e.printStackTrace();
@@ -403,7 +403,7 @@ public class DetailActivity extends AppCompatActivity {
         valuesProduct.put(ProductContract.ProductEntry.COLUMN_PROD_CODE, codeString);
         valuesProduct.put(ProductContract.ProductEntry.COLUMN_PROD_NAME, nameString);
         valuesProduct.put(ProductContract.ProductEntry.COLUMN_PROD_QTDE, qtdeString);
-        valuesProduct.put(ProductContract.ProductEntry.COLUMN_PROD_PRICE, priceInteger);
+        valuesProduct.put(ProductContract.ProductEntry.COLUMN_PROD_PRICE, number.doubleValue());
         valuesProduct.put(ProductContract.ProductEntry.COLUMN_PROD_IMG_URL, fileLocationString);
 
         Uri newRowId = getContentResolver().insert(ProductEntry.CONTENT_URI, valuesProduct);
@@ -413,7 +413,7 @@ public class DetailActivity extends AppCompatActivity {
 
             ContentValues valuesProductOrder = new ContentValues();
             valuesProductOrder.put(ProductOrderEntry.COLUMN_PO_SUPPLIER_ID, mapSupplier.get(supplierString));
-            valuesProductOrder.put(ProductOrderEntry.COLUMN_PO_PRICE,priceInteger);
+            valuesProductOrder.put(ProductOrderEntry.COLUMN_PO_PRICE,number.doubleValue());
             valuesProductOrder.put(ProductOrderEntry.COLUMN_PO_QTDE, qtdeString);
             valuesProductOrder.put(ProductOrderEntry.COLUMN_PO_PROD_ID, prodCode);
 

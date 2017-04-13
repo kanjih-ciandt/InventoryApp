@@ -10,6 +10,12 @@ import android.widget.TextView;
 
 import com.kanjih.inventoryapp.data.ProductContract;
 
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.util.Locale;
+
+import static java.lang.Double.parseDouble;
+
 /**
  * Created by kneto on 4/9/17.
  */
@@ -36,8 +42,16 @@ public class InventoryCursorAdapter extends CursorAdapter {
         String quantityString = cursor.getString(cursor.getColumnIndexOrThrow(ProductContract.ProductEntry.COLUMN_PROD_QTDE));
         String priceString = cursor.getString(cursor.getColumnIndexOrThrow(ProductContract.ProductEntry.COLUMN_PROD_PRICE));
 
+        NumberFormat nf = NumberFormat.getInstance(Locale.US);
+
+
+
         productTextView.setText(productString);
-        quantityTextView.setText(quantityString);
-        priceTextView.setText(priceString);
+        quantityTextView.setText(quantityString + " " + context.getString(R.string.quantity));
+        try {
+            priceTextView.setText(context.getString(R.string.currency)  + " " +  nf.parse(priceString));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 }
