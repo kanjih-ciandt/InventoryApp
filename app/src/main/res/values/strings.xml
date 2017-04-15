@@ -42,8 +42,10 @@
     <string name="editor_save_supplier_failed">Failed to save supplier</string>
     <string name="editor_save_product_successful">Product Saved</string>
     <string name="editor_save_product_failed">Failed to Save product</string>
-    <string name="action_delete_all">delete all</string>
+    <string name="action_delete_all">Delete all</string>
+    <string name="action_add_suplier">Include Dummy Supplier</string>
 
     <string name="currency">$ </string>
     <string name="quantity"> in stock</string>
+    <string name="msg_sold_qtde">Don\'t have more products to sell</string>
 </resources>

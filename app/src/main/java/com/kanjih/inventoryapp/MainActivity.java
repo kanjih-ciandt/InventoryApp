@@ -2,6 +2,7 @@ package com.kanjih.inventoryapp;
 
 import android.app.LoaderManager;
 import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
@@ -27,6 +28,7 @@ import com.kanjih.inventoryapp.data.OrderContract;
 import com.kanjih.inventoryapp.data.ProductContract;
 import com.kanjih.inventoryapp.data.ProductContract.ProductEntry;
 import com.kanjih.inventoryapp.data.ProductOrderContract;
+import com.kanjih.inventoryapp.data.SupplierContract;
 
 public class MainActivity extends AppCompatActivity  implements NavigationView.OnNavigationItemSelectedListener,  LoaderManager.LoaderCallbacks<Cursor>{
 
@@ -106,9 +108,36 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
             getContentResolver().delete(ProductContract.ProductEntry.CONTENT_URI, null, null);
             getContentResolver().delete(ProductOrderContract.ProductOrderEntry.CONTENT_URI, null, null);
             getContentResolver().delete(OrderContract.OrderEntry.CONTENT_URI, null, null);
+            getContentResolver().delete(SupplierContract.SupplierEntry.CONTENT_URI, null, null);
+        } else if (id == R.id.action_add_suplier){
+            generateSupplier();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void generateSupplier() {
+        //Supplier
+        ContentValues valuesSupplier = new ContentValues();
+        valuesSupplier.put(SupplierContract.SupplierEntry.COLUMN_SUP_MAIL, "hkanjih@gmail.com");
+        valuesSupplier.put(SupplierContract.SupplierEntry.COLUMN_SUP_NAME, "Kanji Hara Neto");
+        valuesSupplier.put(SupplierContract.SupplierEntry.COLUMN_SUP_MOBILE, "+55 (31) 99753-8596");
+        valuesSupplier.put(SupplierContract.SupplierEntry.COLUMN_SUP_PHONE, "+55 (31) 99753-8596");
+        getContentResolver().insert(SupplierContract.SupplierEntry.CONTENT_URI,valuesSupplier);
+
+        valuesSupplier = new ContentValues();
+        valuesSupplier.put(SupplierContract.SupplierEntry.COLUMN_SUP_MAIL, "kanjinho@gmail.com");
+        valuesSupplier.put(SupplierContract.SupplierEntry.COLUMN_SUP_NAME, "Kanjinho");
+        valuesSupplier.put(SupplierContract.SupplierEntry.COLUMN_SUP_MOBILE, "+55 (31) 99753-8596");
+        valuesSupplier.put(SupplierContract.SupplierEntry.COLUMN_SUP_PHONE, "+55 (31) 99753-8596");
+        getContentResolver().insert(SupplierContract.SupplierEntry.CONTENT_URI,valuesSupplier);
+
+        valuesSupplier = new ContentValues();
+        valuesSupplier.put(SupplierContract.SupplierEntry.COLUMN_SUP_MAIL, "hkanjih@gmail.com");
+        valuesSupplier.put(SupplierContract.SupplierEntry.COLUMN_SUP_NAME, "Neto");
+        valuesSupplier.put(SupplierContract.SupplierEntry.COLUMN_SUP_MOBILE, "+55 (31) 99753-8596");
+        valuesSupplier.put(SupplierContract.SupplierEntry.COLUMN_SUP_PHONE, "+55 (31) 99753-8596");
+        getContentResolver().insert(SupplierContract.SupplierEntry.CONTENT_URI,valuesSupplier);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
