@@ -262,7 +262,6 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                 Intent intent = new Intent(Intent.ACTION_SENDTO);
                 intent.setType("text/html");
                 intent.setData(Uri.parse("mailto:" + email));
-//                intent.putExtra(Intent.EXTRA_EMAIL, email);
                 intent.putExtra(Intent.EXTRA_SUBJECT, "Supply Order");
                 intent.putExtra(Intent.EXTRA_TEXT, message);
 
@@ -320,7 +319,9 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             }
 
             if (photoFile != null) {
-                //takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
+
+                Uri uriSavedImage=Uri.fromFile(photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, uriSavedImage);
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
         }
@@ -329,8 +330,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            mImageBitmap = (Bitmap) extras.get("data");
+            mImageBitmap = BitmapFactory.decodeFile(mCurrentPhotoPath);
 
             mImageView.setImageBitmap(mImageBitmap);
         }
@@ -341,11 +341,8 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
+        File image = new File(storageDir.getAbsolutePath() + "/ " + imageFileName + ".jpg" );
+
 
         // Save a file: path for use with ACTION_VIEW intents
         mCurrentPhotoPath = image.getAbsolutePath();
