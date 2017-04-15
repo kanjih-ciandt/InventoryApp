@@ -2,6 +2,7 @@ package com.kanjih.inventoryapp;
 
 import android.app.AlertDialog;
 import android.app.LoaderManager;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
@@ -45,6 +46,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+
+import static android.R.attr.name;
 
 public class DetailActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
     public static final String LOG_TAG = DetailActivity.class.getSimpleName();
@@ -185,6 +188,13 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             case R.id.action_delete:
                 showDeleteConfirmationDialog();
                 return true;
+
+
+            case R.id.action_supplier_order:
+                showSupplierOrderConfirmationDialog();
+                return true;
+
+
             // Respond to a click on the "Up" arrow button in the app bar
             case android.R.id.home:
                 // If the pet hasn't changed, continue with navigating up to parent activity
@@ -211,6 +221,58 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showSupplierOrderConfirmationDialog() {
+
+        String supplierString = mSupplierSpinner.getSelectedItem().toString();
+        String supplierID = mapSupplier.get(supplierString);
+        Uri uri = ContentUris.withAppendedId(SupplierContract.SupplierEntry.CONTENT_URI,Integer.valueOf(supplierID));
+
+        String tempPhone = null;
+        String tempEmail = null;
+        String tempName = null;
+
+        Cursor cursor =  getContentResolver().query(uri, SupplierContract.SupplierEntry.projection,null, null, null);
+        if(cursor.moveToFirst()) {
+            tempPhone = cursor.getString(cursor.getColumnIndexOrThrow(SupplierContract.SupplierEntry.COLUMN_SUP_PHONE));
+            tempEmail = cursor.getString(cursor.getColumnIndexOrThrow(SupplierContract.SupplierEntry.COLUMN_SUP_MAIL));
+            tempName = cursor.getString(cursor.getColumnIndexOrThrow(SupplierContract.SupplierEntry.COLUMN_SUP_NAME));
+        }
+
+        final String phone = tempPhone;
+        final String email = tempEmail;
+        final String message = getString(R.string.email_body, tempName, mCode.getText().toString(), mName.getText().toString());
+
+        // Create an AlertDialog.Builder and set the message, and click listeners
+        // for the postivie and negative buttons on the dialog.
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        String msg = getString(R.string.action_supplier_order);
+        builder.setMessage(msg);
+        builder.setPositiveButton(R.string.ask_by_phone, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phone));
+                startActivity(intent);
+
+            }
+        });
+        builder.setNegativeButton(R.string.ask_by_email, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                Intent intent = new Intent(Intent.ACTION_SENDTO);
+                intent.setType("text/html");
+                intent.setData(Uri.parse("mailto:" + email));
+//                intent.putExtra(Intent.EXTRA_EMAIL, email);
+                intent.putExtra(Intent.EXTRA_SUBJECT, "Supply Order");
+                intent.putExtra(Intent.EXTRA_TEXT, message);
+
+                startActivity(Intent.createChooser(intent, "Send Email"));
+            }
+        });
+
+        // Create and show the AlertDialog
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
     private void showDialogSuggestIncludeSupplier() {
@@ -548,6 +610,8 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         // If this is a new pet, hide the "Delete" menu item.
         if (mCurrentUri == null) {
             MenuItem menuItem = menu.findItem(R.id.action_delete);
+            menuItem.setVisible(false);
+            menuItem = menu.findItem(R.id.action_supplier_order);
             menuItem.setVisible(false);
         }
         return true;
