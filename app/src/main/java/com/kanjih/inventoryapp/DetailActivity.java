@@ -166,8 +166,11 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             // Respond to a click on the "Save" menu option
             case R.id.action_save:
 
-                // Do nothing for now
-                if(!isValidFields()){
+                if(mSupplierSpinner.getSelectedItem() == null ){
+                    showDialogSuggestIncludeSupplier();
+
+                }
+                else if(!isValidFields()){
                     Toast.makeText(this, "Fields shoudn't be null ", Toast.LENGTH_SHORT).show();
                     return true;
 
@@ -208,6 +211,39 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showDialogSuggestIncludeSupplier() {
+        // Create an AlertDialog.Builder and set the message, and click listeners
+        // for the postivie and negative buttons on the dialog.
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        String msg = getString(R.string.action_suggest_confirmation);
+        builder.setMessage(msg);
+        builder.setPositiveButton(R.string.generate, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                ContentValues valuesSupplier = new ContentValues();
+                valuesSupplier.put(SupplierContract.SupplierEntry.COLUMN_SUP_MAIL, "hkanjih@gmail.com");
+                valuesSupplier.put(SupplierContract.SupplierEntry.COLUMN_SUP_NAME, "Kanji Hara Neto");
+                valuesSupplier.put(SupplierContract.SupplierEntry.COLUMN_SUP_MOBILE, "+55 (31) 99753-8596");
+                valuesSupplier.put(SupplierContract.SupplierEntry.COLUMN_SUP_PHONE, "+55 (31) 99753-8596");
+                getContentResolver().insert(SupplierContract.SupplierEntry.CONTENT_URI,valuesSupplier);
+                setupSpinner();
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked the "Cancel" button, so dismiss the dialog
+                // and continue editing the pet.
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        // Create and show the AlertDialog
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
     private void dispatchTakePictureIntent() {
@@ -306,7 +342,10 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
     private boolean isValidFields() {
         return ! (mName.getText().toString().trim().isEmpty()  ||
-                mCode.getText().toString().trim().isEmpty() );
+                mCode.getText().toString().trim().isEmpty() ||
+                mPrice.getText().toString().trim().isEmpty() ||
+                mQtde.getText().toString().trim().isEmpty() ||
+                (null == mSupplierSpinner.getSelectedItem()));
 
     }
 

@@ -51,4 +51,6 @@
     <string name="msg_sold_qtde">Don\'t have more products to sell</string>
     <string name="editor_delete_product_failed">Failed to delete product</string>
     <string name="editor_delete_product_successful">Product Deleted</string>
+    <string name="action_suggest_confirmation">You don\' have supplier. Do you want generate one ?</string>
+    <string name="generate">Generate</string>
 </resources>
