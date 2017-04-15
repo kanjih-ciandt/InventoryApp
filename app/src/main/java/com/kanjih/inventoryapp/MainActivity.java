@@ -16,6 +16,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,6 +32,7 @@ import com.kanjih.inventoryapp.data.ProductOrderContract;
 import com.kanjih.inventoryapp.data.SupplierContract;
 
 public class MainActivity extends AppCompatActivity  implements NavigationView.OnNavigationItemSelectedListener,  LoaderManager.LoaderCallbacks<Cursor>{
+    public static final String LOG_TAG = AppCompatActivity.class.getSimpleName();
 
     private static final int PRODUCT_LOADER = 0;
 

@@ -466,7 +466,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return new CursorLoader(this, ProductEntry.CONTENT_URI,ProductEntry.projection,null,null,null);
+        return new CursorLoader(this, mCurrentUri,ProductEntry.projection,null,null,null);
     }
 
     @Override
