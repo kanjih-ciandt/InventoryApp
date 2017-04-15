@@ -16,7 +16,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,7 +27,6 @@ import android.widget.ListView;
 import com.kanjih.inventoryapp.data.OrderContract;
 import com.kanjih.inventoryapp.data.ProductContract;
 import com.kanjih.inventoryapp.data.ProductContract.ProductEntry;
-import com.kanjih.inventoryapp.data.ProductOrderContract;
 import com.kanjih.inventoryapp.data.SupplierContract;
 
 public class MainActivity extends AppCompatActivity  implements NavigationView.OnNavigationItemSelectedListener,  LoaderManager.LoaderCallbacks<Cursor>{
@@ -108,7 +106,6 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
             startActivity(intent);
         } else if (id == R.id.action_delete_all){
             getContentResolver().delete(ProductContract.ProductEntry.CONTENT_URI, null, null);
-            getContentResolver().delete(ProductOrderContract.ProductOrderEntry.CONTENT_URI, null, null);
             getContentResolver().delete(OrderContract.OrderEntry.CONTENT_URI, null, null);
             getContentResolver().delete(SupplierContract.SupplierEntry.CONTENT_URI, null, null);
         } else if (id == R.id.action_add_suplier){

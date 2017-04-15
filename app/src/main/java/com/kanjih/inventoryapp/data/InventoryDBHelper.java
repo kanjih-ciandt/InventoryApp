@@ -6,7 +6,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import com.kanjih.inventoryapp.data.SupplierContract.SupplierEntry;
 import com.kanjih.inventoryapp.data.OrderContract.OrderEntry;
-import com.kanjih.inventoryapp.data.ProductOrderContract.ProductOrderEntry;
 import com.kanjih.inventoryapp.data.ProductContract.ProductEntry;
 
 /**
@@ -41,18 +40,6 @@ public class InventoryDBHelper extends SQLiteOpenHelper {
             + "); ";
 
 
-    private String createProductOrder = "CREATE TABLE " + ProductOrderEntry.TABLE_NAME + " ("
-            + ProductOrderEntry._ID + "  INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + ProductOrderEntry.COLUMN_PO_PROD_ID + " INTEGER NOT NULL, "
-            + ProductOrderEntry.COLUMN_PO_SUPPLIER_ID + " INTEGER NOT NULL, "
-            + ProductOrderEntry.COLUMN_PO_QTDE + " INTEGER NOT NULL, "
-            + ProductOrderEntry.COLUMN_PO_PRICE + " REAL NOT NULL,"
-            + ProductOrderEntry.COLUMN_PO_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP,"
-            + " FOREIGN KEY(" + ProductOrderEntry.COLUMN_PO_PROD_ID + ") REFERENCES " + ProductEntry.TABLE_NAME + " (id), "
-            + " FOREIGN KEY(" + ProductOrderEntry.COLUMN_PO_SUPPLIER_ID + ") REFERENCES " + SupplierEntry.TABLE_NAME + " (id)"
-            + "); ";
-
-
     private String createOrder = "CREATE TABLE " + OrderEntry.TABLE_NAME + " ("
             + OrderEntry._ID + "  INTEGER PRIMARY KEY AUTOINCREMENT, "
             + OrderEntry.COLUMN_ORDER_PRODUCT_ID + " INTEGER NOT NULL, "
@@ -79,8 +66,6 @@ public class InventoryDBHelper extends SQLiteOpenHelper {
         Log.i(LOG_TAG, "Creating table " + createSupplier);
         db.execSQL(createProduct);
         Log.i(LOG_TAG, "Creating table " + createProduct);
-        db.execSQL(createProductOrder);
-        Log.i(LOG_TAG, "Creating table " + createProductOrder);
         db.execSQL(createOrder);
         Log.i(LOG_TAG, "Creating table " + createOrder);
 

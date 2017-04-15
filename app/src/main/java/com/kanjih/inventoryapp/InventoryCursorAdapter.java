@@ -16,16 +16,10 @@ import android.widget.TextView;
 
 import com.kanjih.inventoryapp.data.OrderContract;
 import com.kanjih.inventoryapp.data.ProductContract;
-import com.kanjih.inventoryapp.data.ProductOrderContract;
-import com.kanjih.inventoryapp.data.SupplierContract;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
-
-import static android.R.attr.id;
-import static android.icu.lang.UCharacter.JoiningGroup.E;
-import static java.lang.Double.parseDouble;
 
 /**
  * Created by kneto on 4/9/17.

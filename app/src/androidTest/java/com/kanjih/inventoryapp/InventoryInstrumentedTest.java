@@ -10,7 +10,6 @@ import android.test.ProviderTestCase2;
 import com.kanjih.inventoryapp.data.InventoryProvider;
 import com.kanjih.inventoryapp.data.OrderContract.OrderEntry;
 import com.kanjih.inventoryapp.data.SupplierContract.SupplierEntry;
-import com.kanjih.inventoryapp.data.ProductOrderContract.ProductOrderEntry;
 import com.kanjih.inventoryapp.data.ProductContract.ProductEntry;
 
 import org.junit.Assert;
@@ -75,13 +74,6 @@ public class InventoryInstrumentedTest extends ProviderTestCase2<InventoryProvid
         valuesProduct.put(ProductEntry.COLUMN_PROD_QTDE, 1000);
         valuesProduct.put(ProductEntry.COLUMN_PROD_SUPPLIER_ID,Integer.valueOf(prodCode));
 
-
-        //Product Order
-        valuesProductOrder = new ContentValues();
-        valuesProductOrder.put(ProductOrderEntry.COLUMN_PO_PRICE,145023);
-        valuesProductOrder.put(ProductOrderEntry.COLUMN_PO_QTDE, 1000);
-        valuesProductOrder.put(ProductOrderEntry.COLUMN_PO_PROD_ID,Integer.valueOf(prodCode));
-
         //Order
         valuesOrder = new ContentValues();
         valuesOrder.put(OrderEntry.COLUMN_ORDER_CLIENT_NAME, "Isabela Nogueira Coelho");
@@ -133,26 +125,7 @@ public class InventoryInstrumentedTest extends ProviderTestCase2<InventoryProvid
 
     }
 
-    @Test
-    public void testCRUDProductOrder() throws Exception {
-        ContentProvider provider = getProvider();
 
-        Uri uri =   this.testCreate(provider, SupplierEntry.CONTENT_URI, valuesSupplier);
-
-        String prodCode =  String.valueOf(ContentUris.parseId(uri));
-        valuesProductOrder.put(ProductOrderEntry.COLUMN_PO_SUPPLIER_ID, Integer.valueOf(prodCode));
-        uri = this.testCreate(provider, ProductOrderEntry.CONTENT_URI, valuesProductOrder);
-
-        this.testRead(provider,ProductOrderEntry.CONTENT_URI, ProductOrderEntry.projection);
-
-        prodCode =  String.valueOf(ContentUris.parseId(uri));
-        Uri currentUriPetUri = ContentUris.withAppendedId(ProductOrderEntry.CONTENT_URI,Integer.valueOf(prodCode));
-        valuesProductOrder.put(ProductOrderEntry.COLUMN_PO_PRICE,345023.23d);
-        this.testUpdate(provider,currentUriPetUri,valuesProductOrder);
-        this.testDelete(provider, currentUriPetUri);
-
-
-    }
 
     @Test
     public void testCRUDOrder() throws Exception {

@@ -12,7 +12,6 @@ import android.util.Log;
 
 import com.kanjih.inventoryapp.data.SupplierContract.SupplierEntry;
 import com.kanjih.inventoryapp.data.OrderContract.OrderEntry;
-import com.kanjih.inventoryapp.data.ProductOrderContract.ProductOrderEntry;
 import com.kanjih.inventoryapp.data.ProductContract.ProductEntry;
 
 /**
@@ -57,9 +56,7 @@ public class InventoryProvider extends ContentProvider {
         //Product
         sUriMatcher.addURI(ProductContract.CONTENT_AUTHORITY, ProductContract.PATH_PRODUCT, PRODUCT);
         sUriMatcher.addURI(ProductContract.CONTENT_AUTHORITY, ProductContract.PATH_PRODUCT + "/#", PRODUCT_ID);
-        //Product Order
-        sUriMatcher.addURI(ProductOrderContract.CONTENT_AUTHORITY, ProductOrderContract.PATH_PRODUCT_ORDER, PRODUCT_ORDER);
-        sUriMatcher.addURI(ProductOrderContract.CONTENT_AUTHORITY, ProductOrderContract.PATH_PRODUCT_ORDER + "/#", PRODUCT_ORDER_ID);
+
         //Order
         sUriMatcher.addURI(OrderContract.CONTENT_AUTHORITY, OrderContract.PATH_ORDER, ORDER);
         sUriMatcher.addURI(OrderContract.CONTENT_AUTHORITY, OrderContract.PATH_ORDER + "/#", ORDER_ID);
@@ -85,10 +82,6 @@ public class InventoryProvider extends ContentProvider {
                 return ProductEntry.CONTENT_LIST_TYPE;
             case PRODUCT_ID:
                 return ProductEntry.CONTENT_LIST_TYPE;
-            case PRODUCT_ORDER:
-                return ProductOrderEntry.CONTENT_LIST_TYPE;
-            case PRODUCT_ORDER_ID:
-                return ProductOrderEntry.CONTENT_LIST_TYPE;
             case ORDER:
                 return OrderEntry.CONTENT_LIST_TYPE;
             case ORDER_ID:
@@ -124,14 +117,6 @@ public class InventoryProvider extends ContentProvider {
                 selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
                 cursor = database.query(ProductEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
                 break;
-            case  PRODUCT_ORDER:
-                cursor = database.query(ProductOrderEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
-                break;
-            case  PRODUCT_ORDER_ID:
-                selection = ProductOrderEntry._ID + "=?";
-                selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
-                cursor = database.query(ProductOrderEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
-                break;
             case  ORDER:
                 cursor = database.query(OrderEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
                 break;
@@ -162,8 +147,6 @@ public class InventoryProvider extends ContentProvider {
                 return insertSupplier(uri, values, database);
             case PRODUCT:
                 return insertProduct(uri, values, database);
-            case  PRODUCT_ORDER:
-                return insertProductOrder(uri, values, database);
             case  ORDER:
                 return insertOrder(uri, values, database);
             default:
@@ -191,22 +174,6 @@ public class InventoryProvider extends ContentProvider {
     private Uri insertProduct(Uri uri, ContentValues values, SQLiteDatabase database) {
         long id;
         id =  database.insert(ProductEntry.TABLE_NAME,null, values);
-
-        if(id == -1) {
-            Log.e(LOG_TAG, "Failed to insert row for" + uri);
-            return null;
-        }
-
-        getContext().getContentResolver().notifyChange(uri, null);
-        // Once we know the ID of the new row in the table,
-        // return the new URI with the ID appended to the end of it
-        return ContentUris.withAppendedId(uri, id);
-    }
-
-    @Nullable
-    private Uri insertProductOrder(Uri uri, ContentValues values, SQLiteDatabase database) {
-        long id;
-        id =  database.insert(ProductOrderEntry.TABLE_NAME,null, values);
 
         if(id == -1) {
             Log.e(LOG_TAG, "Failed to insert row for" + uri);
@@ -273,12 +240,6 @@ public class InventoryProvider extends ContentProvider {
                 selection = ProductEntry._ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 return deleteProduct(uri, selection, selectionArgs, database);
-            case  PRODUCT_ORDER:
-                return deleteProductOrder(uri, selection, selectionArgs, database);
-            case  PRODUCT_ORDER_ID:
-                selection = ProductOrderEntry._ID + "=?";
-                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
-                return deleteProductOrder(uri, selection, selectionArgs, database);
             case  ORDER:
                 return deleteOrder(uri, selection, selectionArgs, database);
             case  ORDER_ID:
@@ -299,14 +260,6 @@ public class InventoryProvider extends ContentProvider {
         return rowsDeleted;
     }
 
-    private int deleteProductOrder(Uri uri, String selection, String[] selectionArgs, SQLiteDatabase database) {
-        int rowsDeleted;
-        rowsDeleted =  database.delete(ProductOrderEntry.TABLE_NAME, selection, selectionArgs);
-        if (rowsDeleted != 0) {
-            getContext().getContentResolver().notifyChange(uri, null);
-        }
-        return rowsDeleted;
-    }
 
     private int deleteProduct(Uri uri, String selection, String[] selectionArgs, SQLiteDatabase database) {
         int rowsDeleted;
@@ -345,12 +298,6 @@ public class InventoryProvider extends ContentProvider {
                 selection = ProductEntry._ID + "=?";
                 selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
                 return updateProduct(uri, values, selection, selectionArgs, database);
-            case  PRODUCT_ORDER:
-                return updateProductOrder(uri, values, selection, selectionArgs, database);
-            case  PRODUCT_ORDER_ID:
-                selection = ProductOrderEntry._ID + "=?";
-                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
-                return updateProductOrder(uri, values, selection, selectionArgs, database);
             case  ORDER:
                 return updateOrder(uri, values, selection, selectionArgs, database);
             case  ORDER_ID:
@@ -365,15 +312,6 @@ public class InventoryProvider extends ContentProvider {
     private int updateOrder(Uri uri, ContentValues values, String selection, String[] selectionArgs, SQLiteDatabase database) {
         int rowsUpdated;
         rowsUpdated = database.update(OrderEntry.TABLE_NAME,values,selection,selectionArgs);
-        if (rowsUpdated != 0) {
-            getContext().getContentResolver().notifyChange(uri, null);
-        }
-        return rowsUpdated;
-    }
-
-    private int updateProductOrder(Uri uri, ContentValues values, String selection, String[] selectionArgs, SQLiteDatabase database) {
-        int rowsUpdated;
-        rowsUpdated = database.update(ProductOrderEntry.TABLE_NAME,values,selection,selectionArgs);
         if (rowsUpdated != 0) {
             getContext().getContentResolver().notifyChange(uri, null);
         }
