@@ -18,6 +18,7 @@
     <string name="action_save">Save</string>
     <!-- Label for editor overflow menu option that deletes the current pet [CHAR LIMIT=20] -->
     <string name="action_delete">Delete</string>
+    <string name="action_delete_confirmation">Are you sure that you want delete %1$S</string>
 
     <string name="msg_edit_qtde">the smaller quantity possible is 0</string>
     <string name="supplier_ui_name">Name:</string>
@@ -48,4 +49,6 @@
     <string name="currency">$ </string>
     <string name="quantity"> in stock</string>
     <string name="msg_sold_qtde">Don\'t have more products to sell</string>
+    <string name="editor_delete_product_failed">Failed to delete product</string>
+    <string name="editor_delete_product_successful">Product Deleted</string>
 </resources>

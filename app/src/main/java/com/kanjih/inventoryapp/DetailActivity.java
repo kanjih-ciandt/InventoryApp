@@ -1,12 +1,13 @@
 package com.kanjih.inventoryapp;
 
+import android.app.AlertDialog;
 import android.app.LoaderManager;
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,8 +16,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.NavUtils;
-import android.support.v4.content.FileProvider;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,13 +31,9 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.kanjih.inventoryapp.data.InventoryDBHelper;
 import com.kanjih.inventoryapp.data.ProductContract;
 import com.kanjih.inventoryapp.data.ProductContract.ProductEntry;
-import com.kanjih.inventoryapp.data.ProductOrderContract;
-import com.kanjih.inventoryapp.data.ProductOrderContract.ProductOrderEntry;
 import com.kanjih.inventoryapp.data.SupplierContract;
-import com.kanjih.inventoryapp.data.SupplierContract.SupplierEntry;
 
 import java.io.File;
 import java.io.IOException;
@@ -50,9 +45,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-
-import static android.R.attr.data;
-import static android.R.attr.name;
 
 public class DetailActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
     public static final String LOG_TAG = DetailActivity.class.getSimpleName();
@@ -156,6 +148,8 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         if (mCurrentUri != null) {
             // Kick off the loader
             getLoaderManager().initLoader(PRODUCT_LOADER, null, this);
+        } else {
+            invalidateOptionsMenu();
         }
     }
 
@@ -187,7 +181,6 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             // Respond to a click on the "Delete" menu option
             case R.id.action_delete:
                 showDeleteConfirmationDialog();
-                finish();
                 return true;
             // Respond to a click on the "Up" arrow button in the app bar
             case android.R.id.home:
@@ -366,11 +359,15 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         // Create an AlertDialog.Builder and set the message, and click listeners
         // for the postivie and negative buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(R.string.delete_dialog_msg_supplier);
+
+
+
+        String msg = getString(R.string.action_delete_confirmation, mCode.getText());
+        builder.setMessage(msg);
         builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked the "Delete" button, so delete the pet.
-                deleteSupplier();
+                deleteProduct();
             }
         });
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -447,20 +444,23 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     /**
      * Perform the deletion of the pet in the database.
      */
-    private void deleteSupplier() {
+    private void deleteProduct() {
 
         int rowsDeleted = getContentResolver().delete(mCurrentUri, null, null);
 
         // Show a toast message depending on whether or not the delete was successful.
         if (rowsDeleted == 0) {
             // If no rows were deleted, then there was an error with the delete.
-            Toast.makeText(this, getString(R.string.editor_delete_supplier_failed),
+            Toast.makeText(this, getString(R.string.editor_delete_product_failed),
                     Toast.LENGTH_SHORT).show();
         } else {
             // Otherwise, the delete was successful and we can display a toast.
-            Toast.makeText(this, getString(R.string.editor_delete_supplier_successful),
+            Toast.makeText(this, getString(R.string.editor_delete_product_successful),
                     Toast.LENGTH_SHORT).show();
         }
+
+        // Close the activity
+        finish();
     }
 
 
@@ -501,5 +501,16 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
 
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        // If this is a new pet, hide the "Delete" menu item.
+        if (mCurrentUri == null) {
+            MenuItem menuItem = menu.findItem(R.id.action_delete);
+            menuItem.setVisible(false);
+        }
+        return true;
     }
 }
