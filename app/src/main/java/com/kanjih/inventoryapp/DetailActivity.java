@@ -37,6 +37,8 @@ import com.kanjih.inventoryapp.data.ProductContract.ProductEntry;
 import com.kanjih.inventoryapp.data.SupplierContract;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -131,6 +133,10 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             }
         });
 
+        ImageView img = (ImageView) findViewById(R.id.image_product);
+
+
+
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -139,10 +145,15 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             }
         });
 
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
         if(intent.getBooleanExtra("take_picture", false)){
-            intent.putExtra("take_picture", false);
-            dispatchTakePictureIntent();
+            img.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    intent.putExtra("take_picture", false);
+                    dispatchTakePictureIntent();
+                }
+            });
 
         }
 
@@ -327,14 +338,25 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         }
     }
 
-    @Override
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+//            mImageBitmap = BitmapFactory.decodeFile(mCurrentPhotoPath);
+//            mImageView.setImageBitmap(mImageBitmap);
+//        }
+//    }
+
+        @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             mImageBitmap = BitmapFactory.decodeFile(mCurrentPhotoPath);
-
-            mImageView.setImageBitmap(mImageBitmap);
+            int nh = (int) ( mImageBitmap.getHeight() * (512.0 / mImageBitmap.getWidth()) );
+            Bitmap scaled = Bitmap.createScaledBitmap(mImageBitmap, 512, nh, true);
+            mImageView.setImageBitmap(scaled);
         }
     }
+
+
 
     private File createImageFile() throws IOException {
         // Create an image file name
@@ -404,6 +426,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                 mCode.getText().toString().trim().isEmpty() ||
                 mPrice.getText().toString().trim().isEmpty() ||
                 mQtde.getText().toString().trim().isEmpty() ||
+                null == mCurrentPhotoPath ||
                 (null == mSupplierSpinner.getSelectedItem()));
 
     }
@@ -579,9 +602,12 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
             qtde = Integer.valueOf(quantityString);
 
-            mImageBitmap = BitmapFactory.decodeFile(imageString);
+            mCurrentPhotoPath = imageString;
 
-            mImageView.setImageBitmap(mImageBitmap);
+            mImageBitmap = BitmapFactory.decodeFile(imageString);
+            int nh = (int) ( mImageBitmap.getHeight() * (512.0 / mImageBitmap.getWidth()) );
+            Bitmap scaled = Bitmap.createScaledBitmap(mImageBitmap, 512, nh, true);
+            mImageView.setImageBitmap(scaled);
 
             //mImageView.
             mCode.setText(codeString);
