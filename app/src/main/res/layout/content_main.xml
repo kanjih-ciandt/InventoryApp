@@ -26,15 +26,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true">
-
-        <ImageView
-            android:id="@+id/temp_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/empty_title_text"/>
-
-
-
         <TextView
             android:id="@+id/empty_title_text"
             android:layout_width="wrap_content"

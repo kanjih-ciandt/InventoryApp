@@ -66,15 +66,12 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     private EditText mCode;
     private EditText mName;
 
-
     private EditText mPrice;
     private EditText mQtde;
     private int qtde=0;
     private HashMap<String, String>  mapSupplier = new HashMap<String, String>();
     private HashMap<String, Integer>  mapId = new HashMap<String, Integer>();
     private boolean mProductChange;
-
-
     private Spinner mSupplierSpinner;
 
 
@@ -112,8 +109,6 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         mPrice.setOnTouchListener(mTouchListener);
         mQtde.setOnTouchListener(mTouchListener);
 
-
-
         ImageButton btnAdd = (ImageButton) findViewById(R.id.btn_qtde_add);
         ImageButton btnRemove = (ImageButton) findViewById(R.id.btn_qtde_remove);
 
@@ -133,9 +128,6 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             }
         });
 
-        ImageView img = (ImageView) findViewById(R.id.image_product);
-
-
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,14 +139,13 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
         final Intent intent = getIntent();
         if(intent.getBooleanExtra("take_picture", false)){
-            img.setOnClickListener(new View.OnClickListener() {
+            mImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     intent.putExtra("take_picture", false);
                     dispatchTakePictureIntent();
                 }
             });
-
         }
 
         mCurrentUri = intent.getData();
@@ -180,18 +171,18 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             // Respond to a click on the "Save" menu option
             case R.id.action_save:
 
+                String msg = isValidFields();
+
                 if(mSupplierSpinner.getSelectedItem() == null ){
                     showDialogSuggestIncludeSupplier();
-
                 }
-                else if(!isValidFields()){
-                    Toast.makeText(this, "Fields shoudn't be null ", Toast.LENGTH_SHORT).show();
+                else if(msg != null){
+                    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
                     return true;
 
                 } else {
                     save();
                     finish();
-
                 }
 
                 return true;
@@ -200,11 +191,9 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                 showDeleteConfirmationDialog();
                 return true;
 
-
             case R.id.action_supplier_order:
                 showSupplierOrderConfirmationDialog();
                 return true;
-
 
             // Respond to a click on the "Up" arrow button in the app bar
             case android.R.id.home:
@@ -250,6 +239,8 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             tempEmail = cursor.getString(cursor.getColumnIndexOrThrow(SupplierContract.SupplierEntry.COLUMN_SUP_MAIL));
             tempName = cursor.getString(cursor.getColumnIndexOrThrow(SupplierContract.SupplierEntry.COLUMN_SUP_NAME));
         }
+
+        cursor.close();
 
         final String phone = tempPhone;
         final String email = tempEmail;
@@ -330,7 +321,6 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             }
 
             if (photoFile != null) {
-
                 Uri uriSavedImage=Uri.fromFile(photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, uriSavedImage);
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
@@ -338,15 +328,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         }
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-//            mImageBitmap = BitmapFactory.decodeFile(mCurrentPhotoPath);
-//            mImageView.setImageBitmap(mImageBitmap);
-//        }
-//    }
-
-        @Override
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             mImageBitmap = BitmapFactory.decodeFile(mCurrentPhotoPath);
@@ -421,14 +403,44 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         });
     }
 
-    private boolean isValidFields() {
-        return ! (mName.getText().toString().trim().isEmpty()  ||
-                mCode.getText().toString().trim().isEmpty() ||
-                mPrice.getText().toString().trim().isEmpty() ||
-                mQtde.getText().toString().trim().isEmpty() ||
-                null == mCurrentPhotoPath ||
-                (null == mSupplierSpinner.getSelectedItem()));
+    private String isValidFields() {
 
+        String msg = null;
+        StringBuilder builder = new StringBuilder();
+
+        if(null == mCurrentPhotoPath) {
+            builder.append(" image of product should not be null\n");
+        }
+
+        if(mCode.getText().toString().isEmpty()) {
+            builder.append(" code of product should not be null\n");
+        }
+
+        if(mName.getText().toString().isEmpty()) {
+            builder.append(" name of product should not be null\n");
+        }
+
+        if( mSupplierSpinner.getSelectedItem() == null) {
+            builder.append(" supplier of product should not be null\n");
+        }
+
+        if(mPrice.getText().toString().isEmpty()) {
+            builder.append(" price of product should not be null\n");
+        }
+
+        if(mQtde.getText().toString().isEmpty()) {
+            builder.append(" quantity of product should not be null\n");
+        }
+
+
+
+
+
+        if(builder.length() > 0){
+            msg = builder.toString();
+        }
+
+        return msg;
     }
 
     private void showUnsavedChangesDialog(

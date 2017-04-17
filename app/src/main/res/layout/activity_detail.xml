@@ -32,9 +32,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="3"
             android:orientation="vertical">
-
 
             <!-- Overview category -->
             <LinearLayout
@@ -44,12 +42,12 @@
                 android:paddingTop="16dp">
                 <!-- Label -->
                 <TextView
-                    android:text="Code:"
+                    android:text="@string/label_code"
                     style="@style/LabelStyle" />
                 <!-- Name field -->
                 <EditText
                     android:id="@+id/edit_prod_code"
-                    android:hint="Product Code"
+                    android:hint="@string/product_code"
                     android:inputType="textShortMessage"
                     style="@style/EditorFieldStyle" />
             </LinearLayout>
@@ -61,12 +59,12 @@
                 android:paddingTop="16dp">
                 <!-- Label -->
                 <TextView
-                    android:text="Name:"
+                    android:text="@string/label_name"
                     style="@style/LabelStyle" />
                 <!-- Name field -->
                 <EditText
                     android:id="@+id/edit_prod_name"
-                    android:hint="Product Name"
+                    android:hint="@string/prduct_hint"
                     android:inputType="textShortMessage"
                     style="@style/EditorFieldStyle" />
             </LinearLayout>
@@ -79,12 +77,12 @@
                 android:paddingTop="16dp">
                 <!-- Label -->
                 <TextView
-                    android:text="Supplier:"
+                    android:text="@string/label_supplier"
                     style="@style/LabelStyle" />
                 <!-- Name field -->
                 <Spinner
                     android:id="@+id/edit_prod_supplier"
-                    android:hint="Supplier"
+                    android:hint="@string/hint_supplier"
                     android:inputType="textShortMessage"
                     style="@style/EditorFieldStyle" />
             </LinearLayout>
@@ -97,12 +95,12 @@
                 >
                 <!-- Label -->
                 <TextView
-                    android:text="Price:"
+                    android:text="@string/label_price"
                     style="@style/LabelStyle" />
                 <!-- Name field -->
                 <EditText
                     android:id="@+id/edit_prod_price"
-                    android:hint="00.00"
+                    android:hint="@string/price_initial_value"
                     android:inputType="numberDecimal"
                     style="@style/EditorFieldStyle" />
             </LinearLayout>
@@ -115,7 +113,7 @@
                 android:paddingBottom="16dp">
                 <!-- Label -->
                 <TextView
-                    android:text="Quantity:"
+                    android:text="@string/label_quantity"
                     style="@style/LabelStyle" />
                 <!-- Name field -->
                 <LinearLayout
@@ -126,10 +124,11 @@
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
                        android:src="@drawable/ic_remove_circle_outline_black_24dp"
-                       style="?android:attr/borderlessButtonStyle"/>
+                       style="?android:attr/borderlessButtonStyle"
+                       android:contentDescription="@string/description_remove" />
                     <EditText
                         android:id="@+id/edit_prod_qtde"
-                        android:hint="0"
+                        android:hint="@string/qtde_initial_value"
                         android:textAlignment="center"
                         android:inputType="number"
                         style="@style/EditorFieldStyle"
@@ -139,10 +138,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/ic_add_circle_outline_black_24dp"
-                        style="?android:attr/borderlessButtonStyle"/>
-
+                        style="?android:attr/borderlessButtonStyle"
+                        android:contentDescription="@string/description_add" />
                 </LinearLayout>
-
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

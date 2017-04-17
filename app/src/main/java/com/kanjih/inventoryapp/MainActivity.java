@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
 
     private static final int PRODUCT_LOADER = 0;
 
-    boolean isInventoryMode = true;
+    private boolean isInventoryMode = true;
 
     InventoryCursorAdapter mCursorAdapter;
 
@@ -73,7 +73,6 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
 
                 Uri currentUriPetUri = ContentUris.withAppendedId(ProductEntry.CONTENT_URI,id);
                 intent.setData(currentUriPetUri);
-
 
                 intent.putExtra("take_picture", false);
                 startActivity(intent);

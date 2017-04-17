@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
     <group android:id="@+id/group_function"
         android:checkableBehavior="single">
         <item
             android:id="@+id/nav_change_mode"
             android:icon="@drawable/ic_check_box_black_24dp"
-            android:title="Inventory Mode" />
-
+            android:title="@string/mode_inventory" />
     </group>
-
-
-
 </menu>
